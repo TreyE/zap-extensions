@@ -29,8 +29,7 @@ import org.zaproxy.addon.automation.AutomationData;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SeleniumConfigurationJobParameters extends AutomationData {
+public class SeleniumSessionJobParameters extends AutomationData {
     private String name = "";
     private String browser = "Firefox";
-    private String startUrl = "https://www.google.com";
 }

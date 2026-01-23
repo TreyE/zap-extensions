@@ -27,7 +27,7 @@ import org.parosproxy.paros.extension.Extension;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.zaproxy.addon.automation.ExtensionAutomation;
-import org.zaproxy.addon.seleniumAutomation.jobs.SeleniumConfigurationJob;
+import org.zaproxy.addon.seleniumAutomation.jobs.SeleniumSessionJob;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
 import org.zaproxy.zap.extension.selenium.ProvidedBrowsersComboBoxModel;
 
@@ -63,7 +63,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
 
-    private SeleniumConfigurationJob scJob;
+    private SeleniumSessionJob scJob;
 
     public ExtensionSeleniumAutomation() {
         super(NAME);
@@ -76,7 +76,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
 
         extSelenium = getExtension(ExtensionSelenium.class);
         
-        scJob = new SeleniumConfigurationJob();
+        scJob = new SeleniumSessionJob();
         extAuto = getExtension(ExtensionAutomation.class);
         extAuto.registerAutomationJob(scJob);
     }

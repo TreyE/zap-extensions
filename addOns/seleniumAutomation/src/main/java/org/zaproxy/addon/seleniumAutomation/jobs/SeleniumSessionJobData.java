@@ -22,16 +22,16 @@ package org.zaproxy.addon.seleniumAutomation.jobs;
 import org.zaproxy.addon.automation.AutomationJob;
 import org.zaproxy.addon.automation.jobs.JobData;
 
-public class SeleniumConfigurationJobData extends JobData {
-    private SeleniumConfigurationJobParameters parameters;
+public class SeleniumSessionJobData extends JobData {
+    private SeleniumSessionJobParameters parameters;
 
-    public SeleniumConfigurationJobData(
-            AutomationJob job, SeleniumConfigurationJobParameters parameters) {
+    public SeleniumSessionJobData(
+            AutomationJob job, SeleniumSessionJobParameters parameters) {
         super(job);
         this.parameters = parameters;
     }
 
-    public SeleniumConfigurationJobParameters getParameters() {
+    public SeleniumSessionJobParameters getParameters() {
         return parameters;
     }
 }

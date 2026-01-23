@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.parosproxy.paros.control.Control;
+import org.parosproxy.paros.network.HttpSender;
 import org.zaproxy.addon.automation.AutomationEnvironment;
 import org.zaproxy.addon.automation.AutomationJob;
 import org.zaproxy.addon.automation.AutomationProgress;
@@ -30,29 +31,31 @@ import org.zaproxy.addon.automation.jobs.JobUtils;
 import org.zaproxy.addon.seleniumAutomation.ExtensionSeleniumAutomation;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
 
-public class SeleniumConfigurationJob extends AutomationJob {
+public class SeleniumSessionJob extends AutomationJob {
     private ExtensionSelenium extSelenium;
     private WebDriver wd;
 
-    private SeleniumConfigurationJobParameters parameters;
-    private SeleniumConfigurationJobData data;
+    private SeleniumSessionJobParameters parameters;
+    private SeleniumSessionJobData data;
 
-    public SeleniumConfigurationJob() {
-        this.parameters = new SeleniumConfigurationJobParameters();
-        this.data = new SeleniumConfigurationJobData(this, parameters);
+    public SeleniumSessionJob() {
+        this.parameters = new SeleniumSessionJobParameters();
+        this.data = new SeleniumSessionJobData(this, parameters);
     }
 
     @Override
-    public void runJob(AutomationEnvironment env, AutomationProgress progress) {}
+    public void runJob(AutomationEnvironment env, AutomationProgress progress) {
+        wd = extSelenium.getProxiedBrowserByName(HttpSender.AJAX_SPIDER_INITIATOR, this.getParameters().getBrowser(), null, false);
+    }
 
     @Override
     public String getType() {
-        return "selenium-configuration";
+        return "selenium-session";
     }
 
     @Override
     public Order getOrder() {
-        return Order.CONFIGS;
+        return Order.EXPLORE;
     }
 
     @Override
@@ -73,9 +76,6 @@ public class SeleniumConfigurationJob extends AutomationJob {
     @Override
     public void planStarted() {
         extSelenium = getExtSelenium();
-                
-        wd = extSelenium.getProxiedBrowserByName(this.getParameters().getBrowser());
-        wd.get(this.getParameters().getStartUrl());
     }
     
     public ExtensionSeleniumAutomation getExtSeleniumAutomation() {
@@ -87,18 +87,18 @@ public class SeleniumConfigurationJob extends AutomationJob {
     }
 
     @Override
-    public SeleniumConfigurationJobData getData() {
+    public SeleniumSessionJobData getData() {
         return data;
     }
 
     @Override
-    public SeleniumConfigurationJobParameters getParameters() {
+    public SeleniumSessionJobParameters getParameters() {
         return parameters;
     }
 
     @Override
     public void showDialog() {
-        new SeleniumConfigurationJobDialog(this).setVisible(true);
+        new SeleniumSessionJobDialog(this).setVisible(true);
     }
     
     @Override
