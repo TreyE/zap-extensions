@@ -89,6 +89,7 @@ var addOns =
         "scanpolicies",
         "scripts",
         "selenium",
+	"seleniumAutomation",
         "sequence",
         "simpleexample",
         "soap",
