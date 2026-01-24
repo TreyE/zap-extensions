@@ -19,35 +19,48 @@ zapAddOn {
                         register("automation") {
                             version.set(">=0.31.0")
                         }
-                    }
+			register("selenium") {
+				version.set(">=15.0.0")
+			}
+			register("scripts") {
+				version.set(">=45.2.0")
+			}
+		    }
                 }
             }
-        }
-	dependencies {
-	    addOns {
-		register("commonlib") {
-                    version.set(">=1.37.0")
-                }
-		register("selenium") {
-		    version.set(">=15.0.0")
-		}
-	    }
 	}
-    }
+	dependencies {
+		addOns {
+			register("commonlib") {
+				version.set(">=1.37.0")
+			}
+			register("network") {
+				version.set(">=0.2.0")
+			}
+			register("selenium") {
+				version.set(">=15.0.0")
+			}
+			register("scripts") {
+				version.set(">=45.2.0")
+			}
+		}
+	}
+}
 }
 
 crowdin {
-    configuration {
-        val resourcesPath = "org/zaproxy/addon/${zapAddOn.addOnId.get()}/resources/"
-        tokens.put("%messagesPath%", resourcesPath)
-        tokens.put("%helpPath%", resourcesPath)
-    }
+	configuration {
+		val resourcesPath = "org/zaproxy/addon/${zapAddOn.addOnId.get()}/resources/"
+		tokens.put("%messagesPath%", resourcesPath)
+	}
 }
 
 dependencies {
-    zapAddOn("automation")
-    zapAddOn("commonlib")
-    zapAddOn("selenium")
+	zapAddOn("automation")
+	zapAddOn("commonlib")
+	zapAddOn("selenium")
+	zapAddOn("network")
+	zapAddOn("scripts")
 
-    implementation(libs.scripts.byteBuddy)
+	implementation(libs.scripts.byteBuddy)
 }

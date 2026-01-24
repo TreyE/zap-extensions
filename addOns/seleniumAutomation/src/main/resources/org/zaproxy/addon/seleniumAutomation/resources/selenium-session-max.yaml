@@ -1,0 +1,5 @@
+  - type: selenium-session
+    parameters:
+      name:                      # String: The name of the job
+      browser:                   # String: The browser used for the session, defaults to 'Firefox'
+      startUrl:                  # String: The start URL for the selenium session.

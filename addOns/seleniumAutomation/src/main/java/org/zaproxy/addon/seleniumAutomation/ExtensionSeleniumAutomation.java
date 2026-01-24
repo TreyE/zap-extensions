@@ -19,17 +19,24 @@
  */
 package org.zaproxy.addon.seleniumAutomation;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.parosproxy.paros.CommandLine;
+import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.control.Control;
 import org.parosproxy.paros.extension.Extension;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.zaproxy.addon.automation.ExtensionAutomation;
+import org.zaproxy.addon.network.ExtensionNetwork;
 import org.zaproxy.addon.seleniumAutomation.jobs.SeleniumSessionJob;
+import org.zaproxy.zap.extension.script.ExtensionScript;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
-import org.zaproxy.zap.extension.selenium.ProvidedBrowsersComboBoxModel;
 
 /**
  * A set of extension utilities for automating Selenium.
@@ -56,9 +63,11 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     private static final String RESOURCES = "resources";
 
     private static final Logger LOGGER = LogManager.getLogger(ExtensionSeleniumAutomation.class);
+    
+    private static final String RESOURCES_DIR = "/org/zaproxy/addon/seleniumAutomation/resources/";
 
     private static final List<Class<? extends Extension>> EXTENSION_DEPENDENCIES =
-            List.of(ExtensionAutomation.class, ExtensionSelenium.class);
+            List.of(ExtensionAutomation.class, ExtensionSelenium.class, ExtensionScript.class, ExtensionNetwork.class);
 
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
@@ -107,6 +116,21 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     
     public ExtensionSelenium getExtensionSelenium() {
         return extSelenium;
+    }
+    
+    public static String getResourceAsString(String name) {
+        try (InputStream in =
+                ExtensionSeleniumAutomation.class.getResourceAsStream(RESOURCES_DIR + name)) {
+            return new BufferedReader(new InputStreamReader(in))
+                            .lines()
+                            .collect(Collectors.joining("\n"))
+                    + "\n";
+        } catch (Exception e) {
+            CommandLine.error(
+                    Constant.messages.getString(
+                            "seleniumAutomation.error.nofile", RESOURCES_DIR + name));
+        }
+        return "";
     }
 
     private static <T extends Extension> T getExtension(Class<T> clazz) {

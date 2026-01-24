@@ -32,6 +32,7 @@ public class SeleniumSessionJobDialog extends StandardFieldsDialog {
     private static final String TITLE = "seleniumAutomation.jobData.title";
     public static final String NAME_PARAM = "seleniumAutomation.jobData.name";
     public static final String BROWSER_PARAM = "seleniumAutomation.jobData.browser";
+    public static final String START_URL_PARAM = "seleniumAutomation.jobData.startUrl";
     
     private SeleniumSessionJob job;
     private ProvidedBrowsersComboBoxModel cbModel;
@@ -57,6 +58,7 @@ public class SeleniumSessionJobDialog extends StandardFieldsDialog {
         
         this.addTextField(NAME_PARAM, this.job.getData().getName());
         this.addComboField(BROWSER_PARAM, cbModel, false);
+        this.addTextField(START_URL_PARAM, this.job.getData().getParameters().getStartUrl());
         
         this.addPadding();
     }
@@ -65,6 +67,7 @@ public class SeleniumSessionJobDialog extends StandardFieldsDialog {
     public void save() {
         this.job.getData().setName(this.getStringValue(NAME_PARAM));
         this.job.getData().getParameters().setBrowser(this.cbModel.getSelectedItem().getName());
+        this.job.getData().getParameters().setStartUrl(this.getStringValue(START_URL_PARAM));
         this.job.resetAndSetChanged();
     }
     
