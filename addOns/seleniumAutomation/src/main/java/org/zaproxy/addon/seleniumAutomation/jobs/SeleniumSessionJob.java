@@ -49,6 +49,8 @@ public class SeleniumSessionJob extends AutomationJob {
 
     private SeleniumSessionJobParameters parameters;
     private SeleniumSessionJobData data;
+    
+    private List<ScriptWrapper> disabledSeleniumScripts;
 
     public SeleniumSessionJob() {
         this.parameters = new SeleniumSessionJobParameters();
@@ -127,12 +129,17 @@ public class SeleniumSessionJob extends AutomationJob {
 
     @Override
     public void planFinished() {
+        for (ScriptWrapper escript : disabledSeleniumScripts) {
+            escript.setEnabled(true);
+        }
+        disabledSeleniumScripts = null;
     }
 
     @Override
     public void planStarted() {
         extSelenium = getExtSelenium();
         extScript = getExtScript();
+        disabledSeleniumScripts = maybeDisableSeleniumScripts();
     }
 
     @Override
@@ -192,5 +199,20 @@ public class SeleniumSessionJob extends AutomationJob {
             }
         }
         return null;
+    }
+    
+    private List<ScriptWrapper> maybeDisableSeleniumScripts() {
+        List<ScriptWrapper> scripts = extScript.getScripts(ExtensionSelenium.SCRIPT_TYPE_SELENIUM);
+        List<ScriptWrapper> enabledScripts = new ArrayList<>();
+        if (!this.getParameters().getPlanScriptsOnly()) {
+            return enabledScripts;
+        }
+        for (ScriptWrapper script : scripts) {
+            if (script.isEnabled()) {
+                enabledScripts.add(script);
+                script.setEnabled(false);
+            }
+        }
+        return enabledScripts;
     }
 }
