@@ -66,7 +66,7 @@ public class SeleniumSessionJob extends AutomationJob {
         for (ScriptWrapper script : scripts) {
             if (script.isEnabled()) {
                 enabledScripts.add(script);
-                script.setEnabled(false);
+                extScript.setEnabled(script, false);
             }
         }
         wd = extSelenium.getProxiedBrowserByName(this.getParameters().getBrowser(), this.getParameters().getStartUrl(), false);
@@ -102,7 +102,7 @@ public class SeleniumSessionJob extends AutomationJob {
             }
         }
         for (ScriptWrapper escript : enabledScripts) {
-            escript.setEnabled(true);
+            extScript.setEnabled(escript, true);
         }
         wd.quit();
     }
@@ -130,7 +130,7 @@ public class SeleniumSessionJob extends AutomationJob {
     @Override
     public void planFinished() {
         for (ScriptWrapper escript : disabledSeleniumScripts) {
-            escript.setEnabled(true);
+            extScript.setEnabled(escript, true);
         }
         disabledSeleniumScripts = null;
     }
@@ -210,7 +210,7 @@ public class SeleniumSessionJob extends AutomationJob {
         for (ScriptWrapper script : scripts) {
             if (script.isEnabled()) {
                 enabledScripts.add(script);
-                script.setEnabled(false);
+                extScript.setEnabled(script, false);
             }
         }
         return enabledScripts;
