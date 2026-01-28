@@ -49,18 +49,17 @@ public class SeleniumSessionJob extends AutomationJob {
 
     private SeleniumSessionJobParameters parameters;
     private SeleniumSessionJobData data;
-    
+
     private List<ScriptWrapper> disabledSeleniumScripts;
 
     public SeleniumSessionJob() {
         this.parameters = new SeleniumSessionJobParameters();
         this.data = new SeleniumSessionJobData(this, parameters);
     }
-    
+
     @Override
     public void runJob(AutomationEnvironment env, AutomationProgress progress) {
         ProvidedBrowserUI pbUI = this.getProvidedBrowserUI(this.getParameters().getBrowser());
-        
         List<ScriptWrapper> scripts = extScript.getScripts(ExtensionSelenium.SCRIPT_TYPE_SELENIUM);
         List<ScriptWrapper> enabledScripts = new ArrayList<>();
         for (ScriptWrapper script : scripts) {
@@ -69,20 +68,30 @@ public class SeleniumSessionJob extends AutomationJob {
                 extScript.setEnabled(script, false);
             }
         }
-        wd = extSelenium.getProxiedBrowserByName(this.getParameters().getBrowser(), this.getParameters().getStartUrl(), false);
-        ExtensionNetwork extNetwork = Control.getSingleton().getExtensionLoader().getExtension(ExtensionNetwork.class);
+        wd =
+                extSelenium.getProxiedBrowserByName(
+                        this.getParameters().getBrowser(),
+                        this.getParameters().getStartUrl(),
+                        false);
+        ExtensionNetwork extNetwork =
+                Control.getSingleton().getExtensionLoader().getExtension(ExtensionNetwork.class);
         ServerInfo si = extNetwork.getMainProxyServerInfo();
-        
+
         SeleniumScriptUtils ssu =
-                new SeleniumScriptUtils(wd, HttpSender.PROXY_INITIATOR, pbUI.getBrowser().getId(), si.getAddress(), si.getPort());
-        
+                new SeleniumScriptUtils(
+                        wd,
+                        HttpSender.PROXY_INITIATOR,
+                        pbUI.getBrowser().getId(),
+                        si.getAddress(),
+                        si.getPort());
+
         for (ScriptWrapper script : enabledScripts) {
             try {
                 SeleniumScript s = extScript.getInterface(script, SeleniumScript.class);
 
                 if (s != null) {
-                    Runnable runnable
-                            = () -> {
+                    Runnable runnable =
+                            () -> {
                                 try {
                                     s.browserLaunched(ssu);
                                 } catch (Exception e) {
@@ -153,7 +162,9 @@ public class SeleniumSessionJob extends AutomationJob {
     }
 
     public ExtensionSeleniumAutomation getExtSeleniumAutomation() {
-        return Control.getSingleton().getExtensionLoader().getExtension(ExtensionSeleniumAutomation.class);
+        return Control.getSingleton()
+                .getExtensionLoader()
+                .getExtension(ExtensionSeleniumAutomation.class);
     }
 
     public ExtensionSelenium getExtSelenium() {
@@ -191,7 +202,12 @@ public class SeleniumSessionJob extends AutomationJob {
                     progress);
         }
     }
-    
+
+    @Override
+    public void applyParameters(AutomationProgress progress) {
+        // Doesnt need to do anything
+    }
+
     private ProvidedBrowserUI getProvidedBrowserUI(String browserName) {
         for (ProvidedBrowserUI provided : getExtSelenium().getProvidedBrowserUIList()) {
             if (provided.getName().equals(browserName)) {
@@ -200,7 +216,7 @@ public class SeleniumSessionJob extends AutomationJob {
         }
         return null;
     }
-    
+
     private List<ScriptWrapper> maybeDisableSeleniumScripts() {
         List<ScriptWrapper> scripts = extScript.getScripts(ExtensionSelenium.SCRIPT_TYPE_SELENIUM);
         List<ScriptWrapper> enabledScripts = new ArrayList<>();

@@ -25,8 +25,7 @@ import org.zaproxy.addon.automation.jobs.JobData;
 public class SeleniumSessionJobData extends JobData {
     private SeleniumSessionJobParameters parameters;
 
-    public SeleniumSessionJobData(
-            AutomationJob job, SeleniumSessionJobParameters parameters) {
+    public SeleniumSessionJobData(AutomationJob job, SeleniumSessionJobParameters parameters) {
         super(job);
         this.parameters = parameters;
     }

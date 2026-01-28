@@ -63,11 +63,17 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     private static final String RESOURCES = "resources";
 
     private static final Logger LOGGER = LogManager.getLogger(ExtensionSeleniumAutomation.class);
-    
+
     private static final String RESOURCES_DIR = "/org/zaproxy/addon/seleniumAutomation/resources/";
 
     private static final List<Class<? extends Extension>> EXTENSION_DEPENDENCIES =
-            List.of(ExtensionAutomation.class, ExtensionSelenium.class, ExtensionScript.class, ExtensionNetwork.class);
+            List.of(
+                    ExtensionAutomation.class,
+                    ExtensionSelenium.class,
+                    ExtensionScript.class,
+                    ExtensionNetwork.class);
+
+    public static final String SCRIPT_TYPE_SELENIUM_AUTOMATION = "selenium_automation";
 
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
@@ -81,10 +87,10 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
 
     @Override
     public void hook(ExtensionHook extensionHook) {
-        super.hook(extensionHook);        
+        super.hook(extensionHook);
 
         extSelenium = getExtension(ExtensionSelenium.class);
-        
+
         scJob = new SeleniumSessionJob();
         extAuto = getExtension(ExtensionAutomation.class);
         extAuto.registerAutomationJob(scJob);
@@ -101,7 +107,9 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     public void unload() {
         super.unload();
 
-        extAuto.unregisterAutomationJob(scJob);
+        if (scJob != null) {
+            extAuto.unregisterAutomationJob(scJob);
+        }
     }
 
     @Override
@@ -113,11 +121,11 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     public List<Class<? extends Extension>> getDependencies() {
         return EXTENSION_DEPENDENCIES;
     }
-    
+
     public ExtensionSelenium getExtensionSelenium() {
         return extSelenium;
     }
-    
+
     public static String getResourceAsString(String name) {
         try (InputStream in =
                 ExtensionSeleniumAutomation.class.getResourceAsStream(RESOURCES_DIR + name)) {
