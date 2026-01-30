@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.seleniumAutomation.jobs;
+package org.zaproxy.addon.automationEnhancements.jobs;
 
 import org.parosproxy.paros.view.View;
 import org.zaproxy.zap.extension.selenium.ProvidedBrowserUI;
@@ -29,11 +29,11 @@ import org.zaproxy.zap.view.StandardFieldsDialog;
 public class SeleniumSessionJobDialog extends StandardFieldsDialog {
     private static final long serialVersionUID = 1L;
 
-    private static final String TITLE = "seleniumAutomation.jobData.title";
-    public static final String NAME_PARAM = "seleniumAutomation.jobData.name";
-    public static final String BROWSER_PARAM = "seleniumAutomation.jobData.browser";
-    public static final String START_URL_PARAM = "seleniumAutomation.jobData.startUrl";
-    public static final String PLAN_SCRIPTS_PARAM = "seleniumAutomation.jobData.planScriptsOnly";
+    private static final String TITLE = "seleniumSessionJob.jobData.title";
+    public static final String NAME_PARAM = "seleniumSessionJob.jobData.name";
+    public static final String BROWSER_PARAM = "seleniumSessionJob.jobData.browser";
+    public static final String START_URL_PARAM = "seleniumSessionJob.jobData.startUrl";
+    public static final String PLAN_SCRIPTS_PARAM = "seleniumSessionJob.jobData.planScriptsOnly";
 
     private SeleniumSessionJob job;
     private ProvidedBrowsersComboBoxModel cbModel;
@@ -45,7 +45,7 @@ public class SeleniumSessionJobDialog extends StandardFieldsDialog {
 
         cbModel =
                 this.job
-                        .getExtSeleniumAutomation()
+                        .getExtAutomationEnhancements()
                         .getExtensionSelenium()
                         .createProvidedBrowsersComboBoxModel();
         cbModel.setIncludeUnconfigured(false);

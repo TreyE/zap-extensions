@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.seleniumAutomation;
+package org.zaproxy.addon.automationEnhancements;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -34,26 +34,27 @@ import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.zaproxy.addon.automation.ExtensionAutomation;
 import org.zaproxy.addon.network.ExtensionNetwork;
-import org.zaproxy.addon.seleniumAutomation.jobs.SeleniumSessionJob;
+import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
 import org.zaproxy.zap.extension.script.ExtensionScript;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
+import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
 
 /**
- * A set of extension utilities for automating Selenium.
+ * A set of extension utilities for the automation framework.
  *
- * <p>{@link ExtensionSeleniumAutomation} classes are the main entry point for adding/loading
+ * <p>{@link ExtensionAutomationEnhancements} classes are the main entry point for adding/loading
  * functionalities provided by the add-ons.
  *
  * @see #hook(ExtensionHook)
  */
-public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
+public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
 
     // The name is public so that other extensions can access it
-    public static final String NAME = "ExtensionSeleniumAutomation";
+    public static final String NAME = "ExtensionAutomationEnhancements";
 
     // The i18n prefix, by default the package name - defined in one place to make it easier
     // to copy and change this example
-    protected static final String PREFIX = "seleniumAutomation";
+    protected static final String PREFIX = "automationEnhancements";
 
     /**
      * Relative path (from add-on package) to load add-on resources.
@@ -62,9 +63,11 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
      */
     private static final String RESOURCES = "resources";
 
-    private static final Logger LOGGER = LogManager.getLogger(ExtensionSeleniumAutomation.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(ExtensionAutomationEnhancements.class);
 
-    private static final String RESOURCES_DIR = "/org/zaproxy/addon/seleniumAutomation/resources/";
+    private static final String RESOURCES_DIR =
+            "/org/zaproxy/addon/automationEnhancements/resources/";
 
     private static final List<Class<? extends Extension>> EXTENSION_DEPENDENCIES =
             List.of(
@@ -72,15 +75,13 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
                     ExtensionSelenium.class,
                     ExtensionScript.class,
                     ExtensionNetwork.class);
-
-    public static final String SCRIPT_TYPE_SELENIUM_AUTOMATION = "selenium_automation";
-
+    
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
-
+    
     private SeleniumSessionJob scJob;
 
-    public ExtensionSeleniumAutomation() {
+    public ExtensionAutomationEnhancements() {
         super(NAME);
         setI18nPrefix(PREFIX);
     }
@@ -88,7 +89,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     @Override
     public void hook(ExtensionHook extensionHook) {
         super.hook(extensionHook);
-
+        
         extSelenium = getExtension(ExtensionSelenium.class);
 
         scJob = new SeleniumSessionJob();
@@ -106,7 +107,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
     @Override
     public void unload() {
         super.unload();
-
+        
         if (scJob != null) {
             extAuto.unregisterAutomationJob(scJob);
         }
@@ -114,7 +115,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
 
     @Override
     public String getDescription() {
-        return "Enhanced Selenium Automation";
+        return "Enhanced Automation Tools";
     }
 
     @Override
@@ -128,7 +129,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
 
     public static String getResourceAsString(String name) {
         try (InputStream in =
-                ExtensionSeleniumAutomation.class.getResourceAsStream(RESOURCES_DIR + name)) {
+                ExtensionAutomationEnhancements.class.getResourceAsStream(RESOURCES_DIR + name)) {
             return new BufferedReader(new InputStreamReader(in))
                             .lines()
                             .collect(Collectors.joining("\n"))
@@ -136,7 +137,7 @@ public class ExtensionSeleniumAutomation extends ExtensionAdaptor {
         } catch (Exception e) {
             CommandLine.error(
                     Constant.messages.getString(
-                            "seleniumAutomation.error.nofile", RESOURCES_DIR + name));
+                            "automationEnhancements.error.nofile", RESOURCES_DIR + name));
         }
         return "";
     }

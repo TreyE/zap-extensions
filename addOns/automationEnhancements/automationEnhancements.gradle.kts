@@ -1,18 +1,19 @@
 import org.zaproxy.gradle.addon.AddOnStatus
 
-description = "Enhanced Selenium Automation"
+description = "Enhanced Automation Tools"
 
 zapAddOn {
-    addOnName.set("Selenium Automation")
+    addOnName.set("Automation Enhancements")
     addOnStatus.set(AddOnStatus.ALPHA)
 
     manifest {
         author.set("Trey Evans")
+        repo.set("https://github.com/TreyE/zap-extensions")
         classpath.setFrom(files())
         extensions {
-            register("org.zaproxy.addon.seleniumAutomation.ExtensionSeleniumAutomation") {
+            register("org.zaproxy.addon.automationEnhancements.ExtensionAutomationEnhancements") {
                 classnames {
-                    allowed.set(listOf("org.zaproxy.addon.seleniumAutomation"))
+                    allowed.set(listOf("org.zaproxy.addon.automationEnhancements"))
                 }
                 dependencies {
                     addOns {

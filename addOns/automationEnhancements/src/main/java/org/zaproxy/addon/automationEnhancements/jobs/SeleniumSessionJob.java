@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.seleniumAutomation.jobs;
+package org.zaproxy.addon.automationEnhancements.jobs;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +33,7 @@ import org.zaproxy.addon.automation.AutomationProgress;
 import org.zaproxy.addon.automation.jobs.JobUtils;
 import org.zaproxy.addon.network.ExtensionNetwork;
 import org.zaproxy.addon.network.server.ServerInfo;
-import org.zaproxy.addon.seleniumAutomation.ExtensionSeleniumAutomation;
+import org.zaproxy.addon.automationEnhancements.ExtensionAutomationEnhancements;
 import org.zaproxy.zap.extension.script.ExtensionScript;
 import org.zaproxy.zap.extension.script.ScriptWrapper;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
@@ -153,18 +153,18 @@ public class SeleniumSessionJob extends AutomationJob {
 
     @Override
     public String getTemplateDataMin() {
-        return ExtensionSeleniumAutomation.getResourceAsString(this.getType() + "-min.yaml");
+        return ExtensionAutomationEnhancements.getResourceAsString(this.getType() + "-min.yaml");
     }
 
     @Override
     public String getTemplateDataMax() {
-        return ExtensionSeleniumAutomation.getResourceAsString(this.getType() + "-max.yaml");
+        return ExtensionAutomationEnhancements.getResourceAsString(this.getType() + "-max.yaml");
     }
 
-    public ExtensionSeleniumAutomation getExtSeleniumAutomation() {
+    public ExtensionAutomationEnhancements getExtAutomationEnhancements() {
         return Control.getSingleton()
                 .getExtensionLoader()
-                .getExtension(ExtensionSeleniumAutomation.class);
+                .getExtension(ExtensionAutomationEnhancements.class);
     }
 
     public ExtensionSelenium getExtSelenium() {

@@ -17,21 +17,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.seleniumAutomation.jobs;
+package org.zaproxy.addon.automationEnhancements.jobs;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.zaproxy.addon.automation.AutomationData;
+import org.zaproxy.addon.automation.AutomationJob;
+import org.zaproxy.addon.automation.jobs.JobData;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class SeleniumSessionJobParameters extends AutomationData {
-    private String name = "";
-    private String browser = "Firefox";
-    private String startUrl = "https://www.google.com";
-    private Boolean planScriptsOnly = true;
+public class SeleniumSessionJobData extends JobData {
+    private SeleniumSessionJobParameters parameters;
+
+    public SeleniumSessionJobData(AutomationJob job, SeleniumSessionJobParameters parameters) {
+        super(job);
+        this.parameters = parameters;
+    }
+
+    public SeleniumSessionJobParameters getParameters() {
+        return parameters;
+    }
 }
