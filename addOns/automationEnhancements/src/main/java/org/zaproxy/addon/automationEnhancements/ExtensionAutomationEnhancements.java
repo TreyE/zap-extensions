@@ -33,11 +33,10 @@ import org.parosproxy.paros.extension.Extension;
 import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.zaproxy.addon.automation.ExtensionAutomation;
-import org.zaproxy.addon.network.ExtensionNetwork;
 import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
+import org.zaproxy.addon.network.ExtensionNetwork;
 import org.zaproxy.zap.extension.script.ExtensionScript;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
-import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
 
 /**
  * A set of extension utilities for the automation framework.
@@ -75,10 +74,10 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
                     ExtensionSelenium.class,
                     ExtensionScript.class,
                     ExtensionNetwork.class);
-    
+
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
-    
+
     private SeleniumSessionJob scJob;
 
     public ExtensionAutomationEnhancements() {
@@ -89,7 +88,7 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
     @Override
     public void hook(ExtensionHook extensionHook) {
         super.hook(extensionHook);
-        
+
         extSelenium = getExtension(ExtensionSelenium.class);
 
         scJob = new SeleniumSessionJob();
@@ -107,7 +106,7 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
     @Override
     public void unload() {
         super.unload();
-        
+
         if (scJob != null) {
             extAuto.unregisterAutomationJob(scJob);
         }

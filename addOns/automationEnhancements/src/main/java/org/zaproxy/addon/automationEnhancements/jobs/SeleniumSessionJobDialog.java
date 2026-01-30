@@ -29,11 +29,11 @@ import org.zaproxy.zap.view.StandardFieldsDialog;
 public class SeleniumSessionJobDialog extends StandardFieldsDialog {
     private static final long serialVersionUID = 1L;
 
-    private static final String TITLE = "seleniumSessionJob.jobData.title";
-    public static final String NAME_PARAM = "seleniumSessionJob.jobData.name";
-    public static final String BROWSER_PARAM = "seleniumSessionJob.jobData.browser";
-    public static final String START_URL_PARAM = "seleniumSessionJob.jobData.startUrl";
-    public static final String PLAN_SCRIPTS_PARAM = "seleniumSessionJob.jobData.planScriptsOnly";
+    private static final String TITLE = "automationEnhancements.seleniumSessionJob.jobData.title";
+    public static final String NAME_PARAM = "automationEnhancements.seleniumSessionJob.jobData.name";
+    public static final String BROWSER_PARAM = "automationEnhancements.seleniumSessionJob.jobData.browser";
+    public static final String START_URL_PARAM = "automationEnhancements.seleniumSessionJob.jobData.startUrl";
+    public static final String PLAN_SCRIPTS_PARAM = "automationEnhancements.seleniumSessionJob.jobData.planScriptsOnly";
 
     private SeleniumSessionJob job;
     private ProvidedBrowsersComboBoxModel cbModel;
