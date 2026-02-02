@@ -22,15 +22,15 @@ package org.zaproxy.addon.automationEnhancements.jobs;
 import org.zaproxy.addon.automation.AutomationJob;
 import org.zaproxy.addon.automation.jobs.JobData;
 
-public class SeleniumSessionJobData extends JobData {
-    private SeleniumSessionJobParameters parameters;
+public class SessionCleanupJobData extends JobData {
+    private SessionCleanupJobParameters parameters;
 
-    public SeleniumSessionJobData(AutomationJob job, SeleniumSessionJobParameters parameters) {
+    public SessionCleanupJobData(AutomationJob job, SessionCleanupJobParameters parameters) {
         super(job);
         this.parameters = parameters;
     }
 
-    public SeleniumSessionJobParameters getParameters() {
+    public SessionCleanupJobParameters getParameters() {
         return parameters;
     }
 }

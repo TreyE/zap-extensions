@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.CommandLine;
@@ -34,8 +35,11 @@ import org.parosproxy.paros.extension.ExtensionAdaptor;
 import org.parosproxy.paros.extension.ExtensionHook;
 import org.zaproxy.addon.automation.ExtensionAutomation;
 import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
+import org.zaproxy.addon.automationEnhancements.jobs.SessionCleanupJob;
 import org.zaproxy.addon.network.ExtensionNetwork;
+import org.zaproxy.zap.extension.alert.ExtensionAlert;
 import org.zaproxy.zap.extension.script.ExtensionScript;
+import org.zaproxy.zap.extension.script.ScriptType;
 import org.zaproxy.zap.extension.selenium.ExtensionSelenium;
 
 /**
@@ -53,7 +57,7 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
 
     // The i18n prefix, by default the package name - defined in one place to make it easier
     // to copy and change this example
-    protected static final String PREFIX = "automationEnhancements";
+    public static final String PREFIX = "automationEnhancements";
 
     /**
      * Relative path (from add-on package) to load add-on resources.
@@ -73,12 +77,19 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
                     ExtensionAutomation.class,
                     ExtensionSelenium.class,
                     ExtensionScript.class,
-                    ExtensionNetwork.class);
+                    ExtensionNetwork.class,
+                    ExtensionAlert.class);
+
+    public static final String SCRIPT_TYPE_AUTOMATION_JOB = "automationjob";
 
     private ExtensionAutomation extAuto;
     private ExtensionSelenium extSelenium;
+    private ExtensionScript extScript;
 
-    private SeleniumSessionJob scJob;
+    private SeleniumSessionJob ssJob;
+    private SessionCleanupJob scJob;
+
+    private ScriptType automationJobScriptType;
 
     public ExtensionAutomationEnhancements() {
         super(NAME);
@@ -90,10 +101,22 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
         super.hook(extensionHook);
 
         extSelenium = getExtension(ExtensionSelenium.class);
+        extScript = getExtension(ExtensionScript.class);
 
-        scJob = new SeleniumSessionJob();
+        ssJob = new SeleniumSessionJob();
+        scJob = new SessionCleanupJob();
+
         extAuto = getExtension(ExtensionAutomation.class);
+        extAuto.registerAutomationJob(ssJob);
         extAuto.registerAutomationJob(scJob);
+
+        automationJobScriptType =
+                new ScriptType(
+                        SCRIPT_TYPE_AUTOMATION_JOB,
+                        "automationEnhancements.scripts.type.automationJob",
+                        createIcon("/resource/icon/16/script-standalone.png"),
+                        false);
+        extScript.registerScriptType(automationJobScriptType);
     }
 
     @Override
@@ -107,8 +130,14 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
     public void unload() {
         super.unload();
 
+        if (ssJob != null) {
+            extAuto.unregisterAutomationJob(ssJob);
+        }
         if (scJob != null) {
             extAuto.unregisterAutomationJob(scJob);
+        }
+        if (automationJobScriptType != null) {
+            extScript.removeScriptType(automationJobScriptType);
         }
     }
 
@@ -143,5 +172,12 @@ public class ExtensionAutomationEnhancements extends ExtensionAdaptor {
 
     private static <T extends Extension> T getExtension(Class<T> clazz) {
         return Control.getSingleton().getExtensionLoader().getExtension(clazz);
+    }
+
+    private ImageIcon createIcon(String resourcePath) {
+        if (getView() == null) {
+            return null;
+        }
+        return new ImageIcon(ExtensionScript.class.getResource(resourcePath));
     }
 }

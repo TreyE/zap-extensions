@@ -3,7 +3,7 @@
  *
  * ZAP is an HTTP/HTTPS proxy for assessing web application security.
  *
- * Copyright 2014 The ZAP Development Team
+ * Copyright 2026 The ZAP Development Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import org.zaproxy.addon.automation.AutomationJob;
 import org.zaproxy.addon.automation.AutomationProgress;
 import org.zaproxy.addon.automation.jobs.JobUtils;
 import org.zaproxy.addon.automationEnhancements.ExtensionAutomationEnhancements;
+import org.zaproxy.addon.automationEnhancements.jobs.ui.SeleniumSessionJobDialog;
 import org.zaproxy.addon.network.ExtensionNetwork;
 import org.zaproxy.addon.network.server.ServerInfo;
 import org.zaproxy.zap.extension.script.ExtensionScript;
@@ -153,12 +154,14 @@ public class SeleniumSessionJob extends AutomationJob {
 
     @Override
     public String getTemplateDataMin() {
-        return ExtensionAutomationEnhancements.getResourceAsString(this.getType() + "-min.yaml");
+        return ExtensionAutomationEnhancements.getResourceAsString(
+                "jobs/" + this.getType() + "-min.yaml");
     }
 
     @Override
     public String getTemplateDataMax() {
-        return ExtensionAutomationEnhancements.getResourceAsString(this.getType() + "-max.yaml");
+        return ExtensionAutomationEnhancements.getResourceAsString(
+                "jobs/" + this.getType() + "-max.yaml");
     }
 
     public ExtensionAutomationEnhancements getExtAutomationEnhancements() {

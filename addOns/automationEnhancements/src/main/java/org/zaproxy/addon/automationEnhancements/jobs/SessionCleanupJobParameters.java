@@ -19,18 +19,18 @@
  */
 package org.zaproxy.addon.automationEnhancements.jobs;
 
-import org.zaproxy.addon.automation.AutomationJob;
-import org.zaproxy.addon.automation.jobs.JobData;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.zaproxy.addon.automation.AutomationData;
 
-public class SeleniumSessionJobData extends JobData {
-    private SeleniumSessionJobParameters parameters;
-
-    public SeleniumSessionJobData(AutomationJob job, SeleniumSessionJobParameters parameters) {
-        super(job);
-        this.parameters = parameters;
-    }
-
-    public SeleniumSessionJobParameters getParameters() {
-        return parameters;
-    }
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SessionCleanupJobParameters extends AutomationData {
+    private String name = "";
+    private Boolean clearSites = true;
+    private Boolean clearAlerts = true;
 }

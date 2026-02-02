@@ -74,4 +74,6 @@ dependencies {
     zapAddOn("scripts")
 
     implementation(libs.scripts.byteBuddy)
+    testImplementation(project(":testutils"))
+    testImplementation(project(":addOns:graaljs"))
 }

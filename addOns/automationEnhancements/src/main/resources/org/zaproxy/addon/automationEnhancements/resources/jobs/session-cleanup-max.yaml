@@ -1,0 +1,5 @@
+  - type: session-cleanup
+    parameters:
+      name:                      # String: The name of the job
+      clearSites:           # Boolean: Clean up sites
+      clearAlerts:           # Boolean: Clean up sites

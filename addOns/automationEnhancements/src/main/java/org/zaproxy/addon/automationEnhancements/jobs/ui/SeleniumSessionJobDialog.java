@@ -3,7 +3,7 @@
  *
  * ZAP is an HTTP/HTTPS proxy for assessing web application security.
  *
- * Copyright 2021 The ZAP Development Team
+ * Copyright 2026 The ZAP Development Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.automationEnhancements.jobs;
+package org.zaproxy.addon.automationEnhancements.jobs.ui;
 
 import org.parosproxy.paros.view.View;
+import org.zaproxy.addon.automationEnhancements.jobs.SeleniumSessionJob;
 import org.zaproxy.zap.extension.selenium.ProvidedBrowserUI;
 import org.zaproxy.zap.extension.selenium.ProvidedBrowsersComboBoxModel;
 import org.zaproxy.zap.utils.DisplayUtils;
@@ -30,10 +31,14 @@ public class SeleniumSessionJobDialog extends StandardFieldsDialog {
     private static final long serialVersionUID = 1L;
 
     private static final String TITLE = "automationEnhancements.seleniumSessionJob.jobData.title";
-    public static final String NAME_PARAM = "automationEnhancements.seleniumSessionJob.jobData.name";
-    public static final String BROWSER_PARAM = "automationEnhancements.seleniumSessionJob.jobData.browser";
-    public static final String START_URL_PARAM = "automationEnhancements.seleniumSessionJob.jobData.startUrl";
-    public static final String PLAN_SCRIPTS_PARAM = "automationEnhancements.seleniumSessionJob.jobData.planScriptsOnly";
+    public static final String NAME_PARAM =
+            "automationEnhancements.seleniumSessionJob.jobData.name";
+    public static final String BROWSER_PARAM =
+            "automationEnhancements.seleniumSessionJob.jobData.browser";
+    public static final String START_URL_PARAM =
+            "automationEnhancements.seleniumSessionJob.jobData.startUrl";
+    public static final String PLAN_SCRIPTS_PARAM =
+            "automationEnhancements.seleniumSessionJob.jobData.planScriptsOnly";
 
     private SeleniumSessionJob job;
     private ProvidedBrowsersComboBoxModel cbModel;

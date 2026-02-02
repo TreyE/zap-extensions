@@ -17,20 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zaproxy.addon.automationEnhancements.jobs;
+package org.zaproxy.addon.automationEnhancements.scripts;
 
-import org.zaproxy.addon.automation.AutomationJob;
-import org.zaproxy.addon.automation.jobs.JobData;
-
-public class SeleniumSessionJobData extends JobData {
-    private SeleniumSessionJobParameters parameters;
-
-    public SeleniumSessionJobData(AutomationJob job, SeleniumSessionJobParameters parameters) {
-        super(job);
-        this.parameters = parameters;
-    }
-
-    public SeleniumSessionJobParameters getParameters() {
-        return parameters;
-    }
+public interface AutomationJobScript {
+    // AutomationJob testContext();
+    void performJob(String job, String progress);
 }
